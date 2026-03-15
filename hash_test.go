@@ -597,9 +597,7 @@ func TestHashUnsupportedKind(t *testing.T) {
 	}
 }
 
-func TestHasherInterfaceError(t *testing.T) {
-	type errHasher struct{}
-	// Use HashAny with a type that will fail
+func TestHashAnyUnsupportedType(t *testing.T) {
 	_, err := HashAny(make(chan int))
 	if err == nil {
 		t.Error("expected error for unsupported type")
@@ -684,8 +682,6 @@ func TestHashNilPointerZeroNilFalse(t *testing.T) {
 }
 
 func TestHasherErrorPropagation(t *testing.T) {
-	type errHasher struct{}
-	// Not implementing Hasher, just testing error return from type hasher
 	fn := func(v any, h hash.Hash64) error {
 		return fmt.Errorf("custom error")
 	}
