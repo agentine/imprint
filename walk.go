@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"hash"
+	"hash/fnv"
 	"math"
 	"reflect"
 	"sort"
@@ -263,7 +264,7 @@ type mapEntry struct {
 }
 
 func (w *walker) hashValue(val reflect.Value) uint64 {
-	sub := newWalker(w.cfg)
+	sub := &walker{h: fnv.New64a(), cfg: w.cfg}
 	_ = sub.walk(val)
 	return sub.h.Sum64()
 }
